@@ -1,0 +1,199 @@
+swagger: '2.0'
+basePath: /v1
+info:
+  version: 1.0.0
+  title: Dentist Reservation
+  description: Book an appointment with a dentist
+  contact:
+    name: Tim Chen
+    email: "tianpeng.chen@student.unsw.edu.au"
+paths:
+  /timeslots:
+    get:
+      summary: Gets the available time slots
+      tags:
+        - Timeslots
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: message from server
+              timeslots:
+                type: array
+                items:
+                  $ref: '#/definitions/Timeslot'
+                description: array of all timeslots
+
+
+  /timeslots/{id}/reserve:
+    get:
+      summary: To make an appointment
+      tags:
+        - Timeslots
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          minimum: 0
+          description: ID of the timeslot
+        - in: query
+          name: doc_id
+          type: integer
+          required: true
+          minimum: 0
+          description: ID of the dentist
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          description: JWT of the patient
+      responses:
+        200:
+          description: "Reserved successfully."
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Booked successfully"
+                description: message from server
+              timeslot:
+                $ref: '#/definitions/Timeslot'
+
+        400:
+          description: Timeslot already reserved.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: "The timeslot you tried to book is currently unavailable."
+
+        404:
+          description: Timeslot not found on server.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: "The timeslot you tried to book couldn't be found on the server."
+
+  /timeslots/{id}/cancel:
+    put:
+      summary: To cancel an appointment
+      tags:
+        - Timeslots
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          minimum: 0
+          description: ID of the timeslot
+        - in: query
+          name: doc_id
+          type: integer
+          required: true
+          minimum: 0
+          description: ID of the dentist
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+          description: JWT of the patient
+      responses:
+        200:
+          description: "Cancelled successfully."
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Cancelled successfully"
+                description: message from server
+              timeslot:
+                $ref: '#/definitions/Timeslot'
+
+        400:
+          description: A patient can only cancel his/her appointment.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "You can't cancel this appointment because it was made by another patient."
+                description: message from server
+
+        404:
+          description: Timeslot not found on server.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "The timeslot you tried to book couldn't be found on the server."
+                description: message from server
+
+
+definitions:
+  Timeslot:
+    properties:
+      id:
+        type: integer
+        example: 42
+        description: the timeslot ID.
+      doctor_id:
+        type: integer
+        example: 2
+        description: ID of the dentist who owns this timeslot
+      date:
+        type: string
+        enum:
+          - Monday
+          - Tuesday
+          - Wednesday
+          - Thursday
+          - Friday
+        example: Thursday
+        description: the timeslot date
+      time:
+        type: string
+        enum:
+          - "9"
+          - "10"
+          - "11"
+          - "12"
+          - "13"
+          - "14"
+          - "15"
+          - "16"
+          - "17"
+        example: "16"
+        description: the timeslot time
+      status:
+        type: string
+        enum:
+          - reserved
+          - available
+          - rest
+        example: "reserved"
+        description: the timeslot status
+      comments:
+        type: string
+        example: "no comments"
+        description: optional comments on the timeslot
+      reserved_by:
+        type: string
+        example: "token"
+        description: the JWT of patient who made this reservation
+    required:
+      - id
+      - doctor_id
+      - date
+      - time
+      - status

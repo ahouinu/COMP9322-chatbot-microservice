@@ -13,9 +13,20 @@
   "paths": {
     "/timeslots": {
       "get": {
-        "summary": "Gets the available time slots",
+        "summary": "Gets the available timeslots",
         "tags": [
           "Timeslots"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "doc_id",
+            "type": "integer",
+            "required": true,
+            "minimum": 0,
+            "maximum": 2,
+            "description": "ID of the dentist"
+          }
         ],
         "responses": {
           "200": {
@@ -33,6 +44,19 @@
                     "$ref": "#/definitions/Timeslot"
                   },
                   "description": "array of all timeslots"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dentist not found on server",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Can not find dentist on server, id should be in range [0, 3)",
+                  "description": "message from server"
                 }
               }
             }

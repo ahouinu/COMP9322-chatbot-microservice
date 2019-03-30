@@ -2,7 +2,7 @@ from __future__ import absolute_import
 
 from copy import deepcopy
 
-import mongo_driver as db
+from . import mongo_driver as db
 
 _weeksdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
 _times = [str(_) for _ in range(9, 18)]
@@ -11,7 +11,9 @@ _status = ['reserved', 'available', 'rest']
 
 class Timeslot:
 
-    def __init__(self, doctor_id: int, date: str, time: str, status: str = 'available', comments='', reserved_by=''):
+    def __init__(self, _id: int, doctor_id: int, date: str, time: str, status: str = 'available', comments='',
+                 reserved_by=''):
+        self._id = _id
         self.doctor_id = doctor_id
         self.date = date
         self.time = time

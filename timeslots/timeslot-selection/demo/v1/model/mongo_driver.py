@@ -1,9 +1,10 @@
 from __future__ import absolute_import
 
+import os
 from pprint import pprint
 from pymongo import MongoClient, ReturnDocument
 
-client = MongoClient('localhost', 27017)
+client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
 db = client['timeslots']
 collection = db['collection']
 
@@ -24,6 +25,10 @@ def __get_timeslots(query: dict):
     :return: an iteratable Cursor instance
     '''
     return collection.find(query)
+
+
+def get_timeslot_by_id(id: int, doctor_id: int):
+    return __get_a_timeslot({'_id': id, 'doctor_id': doctor_id})
 
 
 def get_timeslot_by_datetime(date: str, time: str, doctor_id: int):

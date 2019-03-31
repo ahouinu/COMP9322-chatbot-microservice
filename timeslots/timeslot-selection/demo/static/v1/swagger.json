@@ -65,7 +65,7 @@
       }
     },
     "/timeslots/{id}/reserve": {
-      "get": {
+      "put": {
         "summary": "To make an appointment",
         "tags": [
           "Timeslots"

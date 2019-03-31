@@ -10,6 +10,8 @@ from .v1.model import init_db
 
 
 def create_app():
+    print('Initialising mongodb...')
+    init_db()
     app = Flask(__name__, static_folder='static')
     app.register_blueprint(
         v1.bp,
@@ -18,7 +20,5 @@ def create_app():
 
 
 if __name__ == '__main__':
-    # pprint('Initialising mongodb...')
-    init_db()
-    # pprint('Starting flask server...')
+    print('Starting flask server...')
     create_app().run(debug=False)

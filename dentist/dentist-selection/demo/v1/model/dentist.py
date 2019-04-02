@@ -9,6 +9,6 @@ class Dentist:
 
     def __init__(self, _id, name, location, specialization):
         assert(specialization in _valid_specs)
-        self.id = _id
+        self._id = _id
         self.name = name
         self.location = location

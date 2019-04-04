@@ -8,13 +8,13 @@
 ###
 from __future__ import absolute_import
 
-from .api.dentist import Dentist
-from .api.dentist_id import DentistId
-from .api.dentist_id_timeslosts import DentistIdTimeslosts
+from .api.dentists import Dentists
+from .api.dentists_id import DentistsId
+from .api.dentists_id_timeslots import DentistsIdTimeslots
 
 
 routes = [
-    dict(resource=Dentist, urls=['/dentist'], endpoint='dentist'),
-    dict(resource=DentistId, urls=['/dentist/<int:id>'], endpoint='dentist_id'),
-    dict(resource=DentistIdTimeslosts, urls=['/dentist/<int:id>/timeslosts'], endpoint='dentist_id_timeslosts'),
+    dict(resource=Dentists, urls=['/dentists'], endpoint='dentists'),
+    dict(resource=DentistsId, urls=['/dentists/<int:id>'], endpoint='dentists_id'),
+    dict(resource=DentistsIdTimeslots, urls=['/dentists/<int:id>/timeslots'], endpoint='dentists_id_timeslots'),
 ]

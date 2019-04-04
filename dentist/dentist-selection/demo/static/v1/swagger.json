@@ -1,0 +1,237 @@
+{
+  "swagger": "2.0",
+  "basePath": "/v1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Dentist Selection",
+    "description": "Book an appointment with a dentist",
+    "contact": {
+      "name": "Tim Chen",
+      "email": "tianpeng.chen@student.unsw.edu.au"
+    }
+  },
+  "paths": {
+    "/dentists": {
+      "get": {
+        "summary": "To get all available dentist",
+        "tags": [
+          "Dentists"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message from server"
+                },
+                "dentists": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Dentist"
+                  },
+                  "description": "array of all dentist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dentists/{id}": {
+      "get": {
+        "summary": "To get information of a dentist",
+        "tags": [
+          "Dentists"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "minimum": 0,
+            "description": "ID of the dentist"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dentist": {
+                  "$ref": "#/definitions/Dentist"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Dentist not found on server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "Dentist not found on server."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dentists/{id}/timeslots": {
+      "get": {
+        "summary": "To get all available timeslots of a dentist",
+        "tags": [
+          "Dentists"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "integer",
+            "required": true,
+            "minimum": 0,
+            "description": "ID of the dentist"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "description": "message from server",
+                  "example": "OK"
+                },
+                "timeslots": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Timeslot"
+                  },
+                  "description": "array of all available timeslots for this dentist"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Dentist not found on server.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string",
+                  "example": "Dentist not found on server.",
+                  "description": "message from server"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Dentist": {
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 2,
+          "description": "the dentist ID."
+        },
+        "name": {
+          "type": "string",
+          "example": "Dr. John",
+          "description": "the dentist name."
+        },
+        "location": {
+          "type": "string",
+          "example": "Kingsford",
+          "description": "the dentist location."
+        },
+        "specialization": {
+          "type": "string",
+          "enum": [
+            "Paediatric Dentistry",
+            "Orthodontics",
+            "Oral Surgery"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "location",
+        "specialization"
+      ]
+    },
+    "Timeslot": {
+      "properties": {
+        "_id": {
+          "type": "integer",
+          "example": 42,
+          "description": "the timeslot ID."
+        },
+        "doctor_id": {
+          "type": "integer",
+          "example": 2,
+          "description": "ID of the dentist who owns this timeslot"
+        },
+        "date": {
+          "type": "string",
+          "enum": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "example": "Thursday",
+          "description": "the timeslot date"
+        },
+        "time": {
+          "type": "string",
+          "enum": [
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17"
+          ],
+          "example": "16",
+          "description": "the timeslot time"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "reserved",
+            "available",
+            "rest"
+          ],
+          "example": "reserved",
+          "description": "the timeslot status"
+        },
+        "comments": {
+          "type": "string",
+          "example": "no comments",
+          "description": "optional comments on the timeslot"
+        },
+        "reserved_by": {
+          "type": "string",
+          "example": "token",
+          "description": "the JWT of patient who made this reservation"
+        }
+      }
+    }
+  }
+}

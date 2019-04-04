@@ -4,8 +4,9 @@ import os
 from pprint import pprint
 from pymongo import MongoClient, ReturnDocument
 
-client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
-db = client['timeslots']
+client = MongoClient(os.environ['MONGODB_URI'])
+db_name = os.environ['MONGODB_DBNAME']
+db = client[db_name]
 collection = db['collection']
 
 

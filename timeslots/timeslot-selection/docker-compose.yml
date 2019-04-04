@@ -2,7 +2,7 @@ web:
   build: .
   command: gunicorn -b 0.0.0.0:5000 "demo:create_app()"
   ports:
-    - "5000:5000"
+    - "5001:5000"
   volumes:
     - .:/service
   links:

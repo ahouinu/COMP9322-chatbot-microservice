@@ -4,4 +4,5 @@ RUN pip3 install --upgrade pip
 WORKDIR /service
 COPY . /service
 RUN pip3 install -r requirements.txt
-EXPOSE 5000
+CMD gunicorn "demo:create_app()"
+#EXPOSE 5000

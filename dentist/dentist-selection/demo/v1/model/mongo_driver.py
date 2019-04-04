@@ -4,10 +4,14 @@ import os
 from pprint import pprint
 from pymongo import MongoClient, ReturnDocument
 
-# client = MongoClient(os.environ['DB_PORT_27017_TCP_ADDR'], 27017)
-client = MongoClient('localhost', 27017)
-db = client['dentists']
+client = MongoClient(os.environ['MONGODB_URI'])
+db_name = os.environ['MONGODB_DBNAME']
+# pprint(client)
+# client = MongoClient('localhost', 27017)
+db = client['heroku_2v117189']
+# pprint(db)
 collection = db['collection']
+pprint(collection)
 
 
 def __get_a_dentist(query: dict):

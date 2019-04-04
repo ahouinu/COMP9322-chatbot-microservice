@@ -2,8 +2,8 @@ from __future__ import absolute_import
 
 from pprint import pprint
 
-from mongo_driver import collection
-from dentist import Dentist, _valid_specs
+from .mongo_driver import collection
+from .dentist import Dentist, _valid_specs
 
 
 def insert_dentist(dentist: Dentist):

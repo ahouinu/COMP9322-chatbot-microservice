@@ -8,7 +8,7 @@ info:
     name: Tim Chen
     email: tianpeng.chen@student.unsw.edu.au
 paths:
-  /dentist:
+  /dentists:
     get:
       summary: To get all available dentist
       tags:
@@ -22,13 +22,13 @@ paths:
               message:
                 type: string
                 description: message from server
-              dentist:
+              dentists:
                 type: array
                 items:
                   $ref: '#/definitions/Dentist'
                 description: array of all dentist
                 
-  /dentist/{id}:
+  /dentists/{id}:
     get:
       summary: To get information of a dentist
       tags:
@@ -46,7 +46,7 @@ paths:
           schema:
             type: object
             properties:
-              Dentist:
+              dentist:
                 $ref: '#/definitions/Dentist'
         '404':
           description: Dentist not found on server.
@@ -57,7 +57,7 @@ paths:
                 type: string
                 description: Dentist not found on server.
   
-  /dentist/{id}/timeslosts:
+  /dentists/{id}/timeslots:
     get:
       summary: To get all available timeslots of a dentist
       tags:
@@ -75,10 +75,15 @@ paths:
           schema:
             type: object
             properties:
+              message:
+                type: string
+                description: message from server
+                example: OK
               timeslots:
                 type: array
                 items:
-                  type: object
+                  $ref: '#/definitions/Timeslot'
+                description: array of all available timeslots for this dentist
         '404':
           description: Dentist not found on server.
           schema:
@@ -115,3 +120,54 @@ definitions:
       - name
       - location
       - specialization
+
+  Timeslot:
+    properties:
+      _id:
+        type: integer
+        example: 42
+        description: the timeslot ID.
+      doctor_id:
+        type: integer
+        example: 2
+        description: ID of the dentist who owns this timeslot
+      date:
+        type: string
+        enum:
+          - Monday
+          - Tuesday
+          - Wednesday
+          - Thursday
+          - Friday
+        example: Thursday
+        description: the timeslot date
+      time:
+        type: string
+        enum:
+          - "9"
+          - "10"
+          - "11"
+          - "12"
+          - "13"
+          - "14"
+          - "15"
+          - "16"
+          - "17"
+        example: "16"
+        description: the timeslot time
+      status:
+        type: string
+        enum:
+          - reserved
+          - available
+          - rest
+        example: "reserved"
+        description: the timeslot status
+      comments:
+        type: string
+        example: "no comments"
+        description: optional comments on the timeslot
+      reserved_by:
+        type: string
+        example: "token"
+        description: the JWT of patient who made this reservation

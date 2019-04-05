@@ -17,7 +17,7 @@ def insert_timeslot(timeslot: Timeslot):
 
 
 def init_db():
-    AVAILABLE_PROB = 60
+    AVAILABLE_PROB = 40
     counter = 1
     if not collection.find_one():   # do not double init
         for doctor_id in range(0, 3):
@@ -27,9 +27,13 @@ def init_db():
                     p = randint(0, 100)
                     if p > AVAILABLE_PROB:
                         status = 'reserved'
+                        reserved_by = 'SYSTEM'
+                        comments = 'This timeslot is locked by admin'
                     else:
                         status = 'available'
-                    timeslot = Timeslot(counter, doctor_id, w, t, status=status)
+                        reserved_by, comments = '', ''
+                    timeslot = Timeslot(counter, doctor_id, w, t,
+                                        status=status, reserved_by=reserved_by, comments=comments)
                     insert_timeslot(timeslot)
                     pprint(f'Inserting...{timeslot.mongo_view()}')
                     counter += 1

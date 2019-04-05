@@ -17,7 +17,7 @@ def insert_dentist(dentist: Dentist):
 
 def init_db():
     fake_names = ['Dr. Shawn', 'Dr. Miller', 'Dr. Eric']
-    fake_locations = ['Kensington', 'Kingsford', 'Randwick']
+    fake_locations = ['K17-B08 Drum', 'K17-G07 Bongo', 'J17-302a Viola']
     if not collection.find_one():
         for doctor_id, doctor_name, location, spec in \
                 zip(range(0, 3), fake_names, fake_locations, _valid_specs):

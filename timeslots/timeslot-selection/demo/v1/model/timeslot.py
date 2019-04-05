@@ -6,7 +6,7 @@ from . import mongo_driver as db
 from . import timeslot_exceptions as te
 
 _weeksdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-_times = [str(_) for _ in range(9, 18)]
+_times = [str(_) for _ in range(9, 17)]
 _status = ['reserved', 'available', 'rest']
 
 

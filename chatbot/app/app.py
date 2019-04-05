@@ -5,6 +5,7 @@ from typing import List
 
 import requests
 from flask import Flask, make_response, jsonify, request
+from .jwt_encoder import encode_user_id
 
 app = Flask(__name__)
 TIMESLOT_URL = os.environ['TIMESLOT_URL']
@@ -28,14 +29,15 @@ def check_availability(doc_id, day, time):
         f'{TIMESLOT_URL}/v1/timeslots?doc_id={doc_id}&user_selected_day={day}&user_selected_time={time}')
 
 
-# TODO: add JWT here to encrypt user_id
 def reserve_timeslot(user_id, doc_id, timeslot_id):
-    headers = {'Authorization': user_id}
+    token = encode_user_id(user_id)
+    headers = {'Authorization': token}
     return requests.put(f'{TIMESLOT_URL}/v1/timeslots/{timeslot_id}/reserve?doc_id={doc_id}', headers=headers)
 
 
 def cancel_timeslot(user_id, doc_id, timeslot_id):
-    headers = {'Authorization': user_id}
+    token = encode_user_id(user_id)
+    headers = {'Authorization': token}
     return requests.put(f'{TIMESLOT_URL}/v1/timeslots/{timeslot_id}/cancel?doc_id={doc_id}', headers=headers)
 
 
@@ -127,6 +129,7 @@ def return_message():
         doc_id = request.args.get('doc_id', None)
         timeslot_id = request.args.get('timeslot_id', None)
         resp = reserve_timeslot(user_id, doc_id, timeslot_id)
+        pprint(resp.json())
 
         if resp.status_code == 200:
             messages.append(textify('Your reservation has been accomplished!'))
@@ -157,6 +160,7 @@ def return_message():
         timeslot_id = request.args.get('timeslot_id', None)
 
         resp = cancel_timeslot(user_id, doc_id, timeslot_id)
+        pprint(resp.json())
 
         if resp.status_code == 200:
             messages.append(textify('Your previous booking has been cancelled!'))

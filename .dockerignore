@@ -3,3 +3,5 @@
 __pycache__
 .pyc
 start.sh
+document.pdf
+*.docx

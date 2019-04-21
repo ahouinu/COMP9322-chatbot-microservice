@@ -4,7 +4,7 @@ RUN apk add --update --no-cache curl bash nodejs docker
 # install heroku-cli
 RUN curl https://cli-assets.heroku.com/install.sh | sh
 # set heroku api key
-ENV HEROKU_API_KEY='6d98ef75-56aa-4c62-a6c2-32d50b70e134'
+ENV HEROKU_API_KEY=''
 RUN heroku update
 
 # copy files into workspace
